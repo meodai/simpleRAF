@@ -1,0 +1,25 @@
+{
+  "name": "simpleraf",
+  "version": "0.1.0",
+  "description": "simplifies requestAnimationFrame with AMD friendly callbacks",
+  "main": "simpleRAF.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meodai/simpleRAF.git"
+  },
+  "keywords": [
+    "RAF",
+    "animation",
+    "requestAnimationFrame",
+    "AMD"
+  ],
+  "author": "David Aerne <meodai@gmail.com> (https://github.com/meodai)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/meodai/simpleRAF/issues"
+  },
+  "homepage": "https://github.com/meodai/simpleRAF#readme"
+}
