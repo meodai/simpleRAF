@@ -1,0 +1,30 @@
+{
+  "name": "simpleRAF",
+  "version": "0.1.0",
+  "authors": [
+    "David Aerne <meodai@gmail.com>"
+  ],
+  "description": "simplifies requestAnimationFrame with AMD friendly callbacks",
+  "main": "simpleRAF.js",
+  "moduleType": [
+    "amd",
+    "globals"
+  ],
+  "keywords": [
+    "RAF",
+    "requestAnimationFrame",
+    "animation",
+    "AMD"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "requestAnimationFrame-polyfill": "*"
+  }
+}
