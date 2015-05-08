@@ -8,7 +8,7 @@ simplifies requestAnimationFrame with AMD friendly callbacks
 `bower install simpleRAF --save`
 
 ####NPM
-`npm install simpleRAF --save`
+`npm install simpleraf --save`
 
 ## Usage
 ####AMD 
