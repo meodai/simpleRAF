@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>SimpleRAF Demo</title>
+  </head>
+  <body>
+
+    <script src="../bower_components/requestAnimationFrame-polyfill/requestAnimationFrame.js"></script>
+    <script src="../simpleRAF.js"></script>
+    <script>
+        var $body = document.querySelector('body');
+        var fancyAnimation = function(i){ $body.innerHTML = 'NOW: ' + new Date().getTime() + '<br>RAFID: ' + i };
+
+        raf.on(fancyAnimation);
+
+        setTimeout(function(){
+          raf.off(fancyAnimation);
+        }, 5000);
+        setTimeout(function(){
+          raf.on(fancyAnimation);
+        }, 10000);
+    </script>
+  </body>
+</html>
