@@ -7,7 +7,7 @@
     define(factory);
   } else {
     // Browser globals
-    root.raf = factory();
+    root.simpleRAF = factory();
   }
 }(this, function () {
   var rafID, callbacks,
