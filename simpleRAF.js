@@ -18,9 +18,9 @@
   loop = function(id){
     var self = this;
     if( !callbacks.length ) return;
-    callbacks.forEach(function(callback){
-      callback.val += callback.increment;
-      callback.callback.call(self, id, callback.val);
+    callbacks.forEach(function(obj){
+      obj.val += obj.increment;
+      obj.callback.call(self, id, obj.val);
     });
     window.requestAnimationFrame(loop);
   };
