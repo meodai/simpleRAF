@@ -3,23 +3,80 @@
   <head>
     <meta charset="utf-8">
     <title>SimpleRAF Demo</title>
+    <style>
+      body {
+        padding: 2rem;
+        overflow: hidden;
+      }
+
+      #debug, #yay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+      }
+
+      #debug {
+        width: 50vw;
+        text-align: center;
+        font-size: calc(0.4rem + 2vw);
+      }
+
+      #yay {
+        width: 50vw;
+        height: 50vw;
+        border-radius: 100%;
+      }
+
+    </style>
   </head>
   <body>
+
+    <div id="debug"></div>
+    <div id="yay"></div>
 
     <script src="../bower_components/requestAnimationFrame-polyfill/requestAnimationFrame.js"></script>
     <script src="../simpleRAF.js"></script>
     <script>
+        var $debug = document.querySelector('#debug');
+        var test = function(i){ $debug.innerHTML = 'NOW: ' + new Date().getTime() + '<br>RAFID: ' + i };
+
+        simpleRAF.on(test);
+
+        setTimeout(function(){
+          simpleRAF.off(test);
+        },5000);
+        setTimeout(function(){
+          simpleRAF.on(test);
+        },10000);
+
         var $body = document.querySelector('body');
-        var fancyAnimation = function(i){ $body.innerHTML = 'NOW: ' + new Date().getTime() + '<br>RAFID: ' + i };
+        var $yay  = document.querySelector('#yay');
+        var i = 0, j = 0,
+            xg = x = window.innerWidth * .5,
+            yg = y = window.innerHeight * .5;
 
-        raf.on(fancyAnimation);
+        document.addEventListener("mousemove", function(e){
+          xg = e.pageX; yg = e.pageY;
+        });
 
-        setTimeout(function(){
-          raf.off(fancyAnimation);
-        }, 5000);
-        setTimeout(function(){
-          raf.on(fancyAnimation);
-        }, 10000);
+        simpleRAF.on(function(){
+          i += .75;
+          j += 0.25;
+
+          $body.style.backgroundColor = 'hsl(' + i % 360 + ',90%,70%)';
+          $body.style.color = 'hsl(' + (i + 180) % 360 + ',90%,70%)';
+          $yay.style.boxShadow = '0 0 0 ' + j % 45 +'vw ' +
+                                 'hsl(' + (i + 180) % 360 + ',90%,70%)';
+
+          y += (yg - y) * 0.01666;
+          x += (xg - x) * 0.01666;
+          $yay.style.top = y + 'px';
+          $yay.style.left = x + 'px';
+        });
+
     </script>
   </body>
 </html>
