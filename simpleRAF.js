@@ -10,16 +10,19 @@
     root.simpleRAF = factory();
   }
 }(this, function () {
-  var rafID, callbacks,
+  var rafID, callbacks, increments, positions,
       loop, startLoop;
 
   callbacks = [];
+  increments = [];
+  positions = [];
 
   loop = function(id){
     var self = this;
     if( !callbacks.length ) return;
-    callbacks.forEach(function(callback){
-      callback.call(self,id);
+    callbacks.forEach(function(callback, i){
+      positions[i] += increments[i];
+      callback.call(self, id, positions[i]);
     });
     window.requestAnimationFrame(loop);
   };
@@ -31,7 +34,9 @@
   };
 
   return {
-    on: function(callback){
+    on: function(callback, increment){
+      increments.push(increment || 1);
+      positions.push(0);
       callbacks.push(callback);
       startLoop();
     },
@@ -39,6 +44,8 @@
       var i = callbacks.indexOf(callback);
       if (i > -1) {
         callbacks.splice(i, 1);
+        increments.splice(i, 1);
+        positions.splice(i, 1);
       }
       if( !callbacks.length ) {
         window.cancelAnimationFrame(rafID);
