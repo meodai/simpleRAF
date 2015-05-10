@@ -62,8 +62,6 @@
           xg = e.pageX; yg = e.pageY;
         });
 
-        console.log('test', simpleRAF.on)
-
         simpleRAF.on(function(id, i){
           j += 0.25;
 
@@ -78,6 +76,11 @@
           $yay.style.left = x + 'px';
         },.75);
 
+        simpleRAF.on(function(id, i){
+          if( i > 100) {
+            return false;
+          }
+        });
     </script>
   </body>
 </html>
