@@ -1,7 +1,8 @@
 # simpleRAF
 simplifies requestAnimationFrame with AMD friendly callbacks
 
-[Demo](http://codepen.io/meodai/pen/BNjaar?editors=001)
+- [Tech Demo](http://codepen.io/meodai/pen/BNjaar?editors=001)
+- [Worms on LSD Demo](http://codepen.io/meodai/pen/aOdLro?editors=001)
 
 ### Installation
 #### Bower 
