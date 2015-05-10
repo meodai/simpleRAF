@@ -54,7 +54,7 @@
 
         var $body = document.querySelector('body');
         var $yay  = document.querySelector('#yay');
-        var i = 0, j = 0,
+        var j = 0,
             xg = x = window.innerWidth * .5,
             yg = y = window.innerHeight * .5;
 
@@ -62,8 +62,7 @@
           xg = e.pageX; yg = e.pageY;
         });
 
-        simpleRAF.on(function(){
-          i += .75;
+        simpleRAF.on(function(id, i){
           j += 0.25;
 
           $body.style.backgroundColor = 'hsl(' + i % 360 + ',90%,70%)';
@@ -75,8 +74,13 @@
           x += (xg - x) * 0.01666;
           $yay.style.top = y + 'px';
           $yay.style.left = x + 'px';
-        });
+        },.75);
 
+        simpleRAF.on(function(id, i){
+          if( i > 100) {
+            return false;
+          }
+        });
     </script>
   </body>
 </html>
