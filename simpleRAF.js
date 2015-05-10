@@ -37,7 +37,6 @@
     }
   };
 
-  runCallback = function (callback, index, id) {
   /**
    * runCallback: calls the individual callbacks and passes the corresponding
    * meta data as arguments
@@ -46,26 +45,27 @@
    * @param   {double}   timeStamp  RAF DOMHighResTimeStamp
    * @returns {void}
    */
+  runCallback = function (callback, index, timeStamp) {
     var returnValue, meta;
 
     meta = callbacksMeta[index];
     meta.val += meta.increment;
 
-    returnValue = callback.call(meta, id, meta.val);
+    returnValue = callback.call(meta, timeStamp, meta.val);
     if (returnValue === false) {
       removeCallback(index);
     }
   };
 
-  loop = function (id) {
   /**
    * loop: request animation frame loop
    * @param   {double} timeStamp RAF DOMHighResTimeStamp
    * @returns {void}
    */
+  loop = function (timeStamp) {
     if ( !callbacks.length ) return;
     callbacks.forEach(function(obj, i){
-      runCallback(obj, i, id);
+      runCallback(obj, i, timeStamp);
     });
     rafID = window.requestAnimationFrame(loop);
   };
