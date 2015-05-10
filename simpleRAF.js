@@ -10,40 +10,58 @@
     root.simpleRAF = factory();
   }
 }(this, function () {
-  var rafID, callbacks,
-      loop, startLoop;
+  var rafID, callbacks, callbacksMeta,
+      runCallback, removeCallback, loop, startLoop;
 
   callbacks = [];
+  callbacksMeta = [];
 
-  loop = function(id){
-    var self = this;
-    if( !callbacks.length ) return;
-    callbacks.forEach(function(obj){
-      obj.val += obj.increment;
-      obj.callback.call(self, id, obj.val);
-    });
-    window.requestAnimationFrame(loop);
+  removeCallback = function (key) {
+    var i = typeof key === 'function' ? callbacks.indexOf(key) : key;
+    if (i > -1) {
+      callbacks.splice(i, 1);
+      callbacksMeta.splice(i, 1);
+    }
+    if (!callbacks.length) {
+      window.cancelAnimationFrame(rafID);
+    }
   };
 
-  startLoop = function(){
-    if( callbacks.length === 1){
+  runCallback = function (callback, index, id) {
+    var returnValue, meta;
+
+    meta = callbacksMeta[index];
+    meta.val += meta.increment;
+
+    returnValue = callback.call(meta, id, meta.val);
+    if (returnValue === false) {
+      removeCallback(index);
+    }
+  };
+
+  loop = function (id) {
+    if ( !callbacks.length ) return;
+    callbacks.forEach(function(obj, i){
+      runCallback(obj, i, id);
+    });
+    rafID = window.requestAnimationFrame(loop);
+  };
+
+  startLoop = function () {
+    if (callbacks.length === 1) {
         window.requestAnimationFrame(loop);
     }
   };
 
   return {
-    on: function(callback, increment){
-      callbacks.push({callback: callback, val: 0, increment: increment || 1});
+    on: function (callback, increment) {
+      // todo: add the possibility to pass a increment array
+      callbacks.push(callback);
+      callbacksMeta.push({val: 0, increment: increment || 1 });
       startLoop();
     },
-    off: function(callback){
-      var i = callbacks.indexOf(callback);
-      if (i > -1) {
-        callbacks.splice(i, 1);
-      }
-      if( !callbacks.length ) {
-        window.cancelAnimationFrame(rafID);
-      }
+    off: function (callback) {
+      removeCallback(callback);
     }
   };
 }));
