@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>SimpleRAF Worm Demo</title>
+    <style>
+
+      body, html, * {
+        font-family: 'Roboto', sans-serif;
+        line-height: 1.4;
+        margin: 0;
+        padding: 0;
+        text-transform: uppercase;
+      }
+
+      canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      .message {
+        opacity: 1;
+        position: absolute;
+        top: 25%;
+        left: 50%;
+        padding: 1.5rem;
+        background: #212121;
+        -webkit-transform: translate(-50%, -50%) scale(1);
+            -ms-transform: translate(-50%, -50%) scale(1);
+                transform: translate(-50%, -50%) scale(1);
+        color: #fff;
+        text-align: center;
+        font-size: calc(0.25rem + 2vw);
+        pointer-events: none;
+        -webkit-transition: opacity 300ms ease-in, -webkit-transform 300ms ease-in;
+                transition: opacity 300ms ease-in, transform 300ms ease-in;
+        box-shadow: 0 0 0 10px;
+      }
+
+      .hide {
+        opacity: 0;
+        -webkit-transform: translate(-50%, -50%) scale(0.8);
+            -ms-transform: translate(-50%, -50%) scale(0.8);
+                transform: translate(-50%, -50%) scale(0.8);
+      }
+
+    </style>
+  </head>
+  <body>
+
+    <canvas></canvas>
+    <p class="message"></p>
+
+
+    <script src="../bower_components/requestAnimationFrame-polyfill/requestAnimationFrame.js"></script>
+    <script src="../simpleRAF.js"></script>
+    <script>
+      var stage = document.querySelector('canvas'),
+          context = stage.getContext('2d'),
+          w = window,
+          ww = w.innerWidth,
+          wh = w.innerHeight,
+          r = baseR = 40,
+          xg = x = ww * .5,
+          yg = y = wh * .5,
+          diffy, diffx = 0,
+          spin = true,
+          acceleration = .025,
+          moveEvent = 'mousemove',
+          clickEvent = 'click',
+          isTouch = false,
+          $message = document.querySelector('.message'),
+          $body = document.querySelector('body'),
+          message = 'Move your mouse to draw a rainbow 3d worm',
+          removeMessage = function(){
+            setTimeout(function(){
+              $message.className += ' hide';
+              setTimeout(function(){
+                $body.removeChild($message);
+              }, 300);
+            },1000);
+            removeMessage = function(){};
+          };
+
+      stage.setAttribute('width', ww);
+      stage.setAttribute('height', wh);
+
+      if ('ontouchstart' in window) {
+       moveEvent = 'touchmove';
+       clickEvent = 'touchend';
+       acceleration = .12;
+       isTouch = true;
+       message = 'Touch & move your finger to draw a rainbow 3d worm';
+      }
+
+      $message.innerHTML = message;
+
+      document.addEventListener(moveEvent, function(e){
+        e.preventDefault();
+        spin = false;
+        xg = e.pageX || e.targetTouches[0].pageX;
+        yg = e.pageY || e.targetTouches[0].pageY;
+        removeMessage();
+      });
+
+      document.addEventListener(clickEvent, function(e){
+        spin = true;
+      });
+
+      context.clearRect(0, 0, ww, wh);
+      /*context.fillStyle = "black"
+      context.fillRect(0, 0, ww, wh);
+      */
+      simpleRAF.on(function(timeStamp, currentPos){
+        if (spin && !isTouch) {
+          xg = x + (wh * .35) * Math.cos(currentPos * .05);
+          yg = y + (wh * .35) * Math.sin(currentPos * .05);
+        }
+
+        diffx = (xg - x);
+        diffy = (yg - y);
+
+        r = baseR * (1 - (Math.abs(diffy) / wh)) * (1 - (Math.abs(diffx) / ww));
+
+        x += diffx * acceleration;
+        y += diffy * acceleration;
+
+        context.beginPath();
+        context.arc(x, y, r + 2, 0, Math.PI * 2, false);
+        context.closePath();
+        context.fillStyle = "hsla(" + (currentPos + 180) % 360 + ",90%,80%,.5)";
+        context.fill();
+
+        context.beginPath();
+        context.arc(x, y, r, 0, Math.PI * 2, false);
+        context.closePath();
+        context.fillStyle = "hsla(" + currentPos % 360 + ",90%,80%,.8)";
+        context.fillStyle = "rgba(0,0,0,.75)";
+        context.fill();
+
+
+        context.beginPath();
+        context.arc(x, y, baseR * .3, 0, Math.PI * 2, false);
+        context.closePath();
+        context.fillStyle = "hsla(" + (currentPos + 180) % 360 + ",90%,80%,.25)";
+        context.fill();
+
+        $message.style.color = "hsl(" + (currentPos + 180) % 360 + ",90%,80%)";
+      }, 1);
+    </script>
+  </body>
+</html>
