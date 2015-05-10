@@ -31,7 +31,7 @@ simplifies requestAnimationFrame with AMD friendly callbacks
   simpleRAF.on(callback);
 ```
 
-## Methos
+## Methods
 simpleRAF has two methods `.on()` and `.off()`, used to add and remove callback functions that will be called on each animation frame.
 
 ### `.on()`
@@ -47,7 +47,7 @@ A parameter specifying a function to call when it's time to update your animatio
 If the callback function returns false at any time, it will remove it self and not be called anymore,
 
 #### increment
-A number that will be incremented on each animation frame and passed to the callbackfunction. If the argument is left away the default will be `1`.
+A number that will be incremented on each animation frame and passed to the callback function. If the argument is left away the default will be `1`.
 
 ### `.off()`
 Will remove a function from the callbacks to call on every frame.
@@ -57,7 +57,7 @@ Will remove a function from the callbacks to call on every frame.
 simpleRAF.off(callback)
 ```
 #### callback
-A paramenter referencing any function that was passed to the `.on()` method.
+A parameter referencing any function that was passed to the `.on()` method.
 
 ## Example
 ```javascript
