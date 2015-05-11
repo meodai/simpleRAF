@@ -63,6 +63,7 @@
    * meta data as arguments
    * @param   {Function} callback
    * @param   {integer}  index      position in callbacks array
+   * @param   {double}   delta      time since the last call in ms
    * @param   {double}   timeStamp  RAF DOMHighResTimeStamp
    * @returns {void}
    */
@@ -78,6 +79,11 @@
     }
   };
 
+  /**
+   * runCallbacks: loops the callback array and passes the delta and the timeStamp
+   * @param   {double} timeStamp timestamp from RAF
+   * @returns {void}
+   */
   runCallbacks = function (timeStamp) {
     var delta = getDelta();
     callbacks.forEach(function(callback, index){
