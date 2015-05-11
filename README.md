@@ -43,7 +43,7 @@ Adds a function that will be called on every animation frame.
 simpleRAF.on(callback, increment)
 ```
 #### callback
-A parameter specifying a function to call when it's time to update your animation for the next repaint. The callback has two arguments, a `DOMHighResTimeStamp`, which indicates the current time for when requestAnimationFrame starts to fire callbacks. The second argument is the amount of the total iterations time the increment.
+A parameter specifying a function to call when it's time to update your animation for the next repaint. The callback has three arguments, `delta` that indicates the time since the last call in milliseconds. The second argument is the amount of the total iterations times the increment. The last one is a `DOMHighResTimeStamp`, which indicates the current time for when requestAnimationFrame starts to fire callbacks.
 
 If the callback function returns false at any time, it will remove it self and not be called anymore,
 
@@ -62,9 +62,11 @@ A parameter referencing any function that was passed to the `.on()` method.
 
 ## Example
 ```javascript
-  simpleRAF.on(function(timeStamp, i){
+  simpleRAF.on(function(delta, i){
     $body.style.backgroundColor = 'hsl(' + i % 360 + ',90%,70%)';
     $body.style.color = 'hsl(' + (i + 180) % 360 + ',90%,70%)';
+    
+    $fps.innerHTML = Math.floor( 1/(delta/1000) );
     
     $elem.style.left = i + .25 + 'px';
     if (i > (1000 * .75)) {
