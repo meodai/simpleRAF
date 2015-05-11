@@ -10,8 +10,14 @@
     root.simpleRAF = factory();
   }
 }(this, function () {
-  var rafID, callbacks, callbacksMeta,
-      runCallback, removeCallback, loop, startLoop;
+  var rafID, callbacks, callbacksMeta, lastTimeCalled,
+      runCallback, removeCallback, loop, startLoop, currtime, getDelta;
+
+  currtime = window.performance && window.performance.now ? function() {
+    return performance.now();
+  } : Date.now || function () {
+    return new Date;
+  };
 
   callbacks = [];
   /**
@@ -38,6 +44,18 @@
   };
 
   /**
+   * getDelta: calculates the time between the RAF calls
+   * @returns {float} time in milliseconds
+   */
+  getDelta = function () {
+    var now, delta;
+    now = currtime();
+    delta = (now - lastTimeCalled);
+    lastTimeCalled = now;
+    return delta;
+  };
+
+  /**
    * runCallback: calls the individual callbacks and passes the corresponding
    * meta data as arguments
    * @param   {Function} callback
@@ -51,7 +69,7 @@
     meta = callbacksMeta[index];
     meta.val += meta.increment;
 
-    returnValue = callback.call(meta, timeStamp, meta.val);
+    returnValue = callback.call(meta, getDelta(), meta.val, timeStamp);
     if (returnValue === false) {
       removeCallback(index);
     }

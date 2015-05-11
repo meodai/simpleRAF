@@ -41,7 +41,7 @@
     <script src="../simpleRAF.js"></script>
     <script>
         var $debug = document.querySelector('#debug');
-        var test = function(i){ $debug.innerHTML = 'NOW: ' + new Date().getTime() + '<br>RAFID: ' + i };
+        var test = function(delta){ $debug.innerHTML = 'NOW: ' + new Date().getTime() + '<br>RAFID: ' + delta };
 
         simpleRAF.on(test);
 
@@ -62,9 +62,8 @@
           xg = e.pageX; yg = e.pageY;
         });
 
-        simpleRAF.on(function(id, i){
+        simpleRAF.on(function(delta, i){
           j += 0.25;
-
           $body.style.backgroundColor = 'hsl(' + i % 360 + ',90%,70%)';
           $body.style.color = 'hsl(' + (i + 180) % 360 + ',90%,70%)';
           $yay.style.boxShadow = '0 0 0 ' + j % 45 +'vw ' +
