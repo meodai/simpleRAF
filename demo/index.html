@@ -41,7 +41,7 @@
     <script src="../simpleRAF.js"></script>
     <script>
         var $debug = document.querySelector('#debug');
-        var test = function(delta){ $debug.innerHTML = 'NOW: ' + new Date().getTime() + '<br>RAFID: ' + delta };
+        var test = function(delta){ $debug.innerHTML = 'NOW: ' + new Date().getTime() + '<br>FPS: ' + Math.floor( 1/(delta/1000) )  };
 
         simpleRAF.on(test);
 
