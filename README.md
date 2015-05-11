@@ -1,5 +1,5 @@
 # simpleRAF
-simplifies requestAnimationFrame with AMD friendly callbacks
+simplifies requestAnimationFrame with AMD friendly callbacks. Includes delta time using the high resolution time API and super simple iteration.
 
 - [Tech Demo](http://codepen.io/meodai/pen/BNjaar?editors=001)
 - [Worms on LSD Demo](http://codepen.io/meodai/pen/aOdLro?editors=001)
@@ -43,9 +43,16 @@ Adds a function that will be called on every animation frame.
 simpleRAF.on(callback, increment)
 ```
 #### callback
-A parameter specifying a function to call when it's time to update your animation for the next repaint. The callback has three arguments, `delta` that indicates the time since the last call in milliseconds. The second argument is the amount of the total iterations times the increment. The last one is a `DOMHighResTimeStamp`, which indicates the current time for when requestAnimationFrame starts to fire callbacks.
+A parameter specifying a function to call when it's time to update your animation for the next repaint. The callback has three arguments; 
+- `delta` that indicates the time since the last call in **milliseconds**. 
+- `i` The second argument is the amount of the total iterations times the increment. 
+- `timeStamp` is a `DOMHighResTimeStamp`, which indicates the current time for when requestAnimationFrame starts to fire callbacks.
 
-If the callback function returns false at any time, it will remove it self and not be called anymore,
+```javascript
+simpleRAF.on( function callback (delta, i, timeStamp){} );
+```
+
+**If the callback function returns false at any time, it will remove it self and not be called anymore.**
 
 #### increment
 A number that will be incremented on each animation frame and passed to the callback function. If the argument is left away the default will be `1`.
