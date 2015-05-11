@@ -10,10 +10,13 @@
     root.simpleRAF = factory();
   }
 }(this, function () {
-  var rafID, callbacks, callbacksMeta, lastTimeCalled,
-      runCallback, removeCallback, loop, startLoop, currtime, getDelta;
+  var rafID, callbacks, callbacksMeta, lastTimeCalled, w,
+      runCallbacks, runCallback, removeCallback, loop, startLoop, currtime,
+      getDelta;
 
-  currtime = window.performance && window.performance.now ? function() {
+  w = window;
+
+  currtime = w.performance && w.performance.now ? function() {
     return performance.now();
   } : Date.now || function () {
     return new Date;
@@ -39,7 +42,7 @@
       callbacksMeta.splice(i, 1);
     }
     if (!callbacks.length) {
-      window.cancelAnimationFrame(rafID);
+      w.cancelAnimationFrame(rafID);
     }
   };
 
@@ -63,16 +66,23 @@
    * @param   {double}   timeStamp  RAF DOMHighResTimeStamp
    * @returns {void}
    */
-  runCallback = function (callback, index, timeStamp) {
+  runCallback = function (callback, index, delta, timeStamp) {
     var returnValue, meta;
 
     meta = callbacksMeta[index];
     meta.val += meta.increment;
 
-    returnValue = callback.call(meta, getDelta(), meta.val, timeStamp);
+    returnValue = callback.call(meta, delta, meta.val, timeStamp);
     if (returnValue === false) {
       removeCallback(index);
     }
+  };
+
+  runCallbacks = function (timeStamp) {
+    var delta = getDelta();
+    callbacks.forEach(function(callback, index){
+      runCallback(callback, index, delta, timeStamp);
+    });
   };
 
   /**
@@ -82,9 +92,7 @@
    */
   loop = function (timeStamp) {
     if ( !callbacks.length ) return;
-    callbacks.forEach(function(obj, i){
-      runCallback(obj, i, timeStamp);
-    });
+    runCallbacks(timeStamp);
     rafID = w.requestAnimationFrame(loop);
   };
 
