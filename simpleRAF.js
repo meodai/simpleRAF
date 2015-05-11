@@ -45,7 +45,7 @@
 
   /**
    * getDelta: calculates the time between the RAF calls
-   * @returns {float} time in milliseconds
+   * @returns {double} time in milliseconds
    */
   getDelta = function () {
     var now, delta;
