@@ -85,7 +85,7 @@
     callbacks.forEach(function(obj, i){
       runCallback(obj, i, timeStamp);
     });
-    rafID = window.requestAnimationFrame(loop);
+    rafID = w.requestAnimationFrame(loop);
   };
 
   /**
@@ -94,7 +94,7 @@
    */
   startLoop = function () {
     if (callbacks.length === 1) {
-        window.requestAnimationFrame(loop);
+        w.requestAnimationFrame(loop);
     }
   };
 
