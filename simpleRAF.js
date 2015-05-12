@@ -34,8 +34,8 @@
   /**
    * removeCallback: removes a callback and its meta data from the corresponding
    * arrays
-   * @param   {[type]} key function or index in callback array
-   * @returns {[void]}
+   * @param   {function || integer} key function or index in callback array
+   * @returns {void}
    */
   removeCallback = function (key) {
     var i = typeof key === 'function' ? callbacks.indexOf(key) : key;
@@ -104,7 +104,7 @@
    * @returns {void}
    */
   startLoop = function () {
-    if (callbacks.length === 1) {
+    if ( callbacks.length === 1 ) {
         w.requestAnimationFrame(loop);
     }
   };
