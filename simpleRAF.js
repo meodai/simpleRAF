@@ -22,7 +22,6 @@
    * iteration and iteration
    */
   callbacksMeta = [];
-
   /**
    * currentime: returns performance.now() or Date as fallback
    * @returns {double}    DOMHighResTimeStamp || Dete
@@ -32,7 +31,6 @@
   } : Date.now || function () {
     return new Date;
   };
-
   /**
    * removeCallback: removes a callback and its meta data from the corresponding
    * arrays
@@ -49,7 +47,6 @@
       w.cancelAnimationFrame(rafID);
     }
   };
-
   /**
    * getDelta: calculates the time between the RAF calls
    * @returns {double} time in milliseconds
@@ -61,7 +58,6 @@
     lastTimeCalled = now;
     return delta;
   };
-
   /**
    * runCallback: calls the individual callbacks and passes the corresponding
    * meta data as arguments
@@ -82,7 +78,6 @@
       removeCallback(index);
     }
   };
-
   /**
    * runCallbacks: loops the callback array and passes the delta and the timeStamp
    * @param   {double} timeStamp timestamp from RAF
@@ -94,7 +89,6 @@
       runCallback(callback, index, delta, timeStamp);
     });
   };
-
   /**
    * loop: request animation frame loop
    * @param   {double} timeStamp RAF DOMHighResTimeStamp
@@ -105,7 +99,6 @@
     runCallbacks(timeStamp);
     rafID = w.requestAnimationFrame(loop);
   };
-
   /**
    * startLoop kicks of the RAF loop if there is at least one callback
    * @returns {void}
