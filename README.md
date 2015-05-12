@@ -1,5 +1,5 @@
 # simpleRAF
-simplifies requestAnimationFrame with AMD friendly callbacks
+simplifies requestAnimationFrame with AMD friendly callbacks. Includes delta time using the high resolution time API and super simple iteration.
 
 - [Tech Demo](http://codepen.io/meodai/pen/BNjaar?editors=001)
 - [Worms on LSD Demo](http://codepen.io/meodai/pen/aOdLro?editors=001)
@@ -43,9 +43,16 @@ Adds a function that will be called on every animation frame.
 simpleRAF.on(callback, increment)
 ```
 #### callback
-A parameter specifying a function to call when it's time to update your animation for the next repaint. The callback has two arguments, a `DOMHighResTimeStamp`, which indicates the current time for when requestAnimationFrame starts to fire callbacks. The second argument is the amount of the total iterations time the increment.
+A parameter specifying a function to call when it's time to update your animation for the next repaint. The callback has three arguments; 
+- `delta` that indicates the time since the last call in **milliseconds**. 
+- `i` The second argument is the amount of the total iterations times the increment. 
+- `timeStamp` is a `DOMHighResTimeStamp`, which indicates the current time for when requestAnimationFrame starts to fire callbacks.
 
-If the callback function returns false at any time, it will remove it self and not be called anymore,
+```javascript
+simpleRAF.on( function callback (delta, i, timeStamp){} );
+```
+
+**If the callback function returns false at any time, it will remove it self and not be called anymore.**
 
 #### increment
 A number that will be incremented on each animation frame and passed to the callback function. If the argument is left away the default will be `1`.
@@ -62,9 +69,11 @@ A parameter referencing any function that was passed to the `.on()` method.
 
 ## Example
 ```javascript
-  simpleRAF.on(function(timeStamp, i){
+  simpleRAF.on(function(delta, i){
     $body.style.backgroundColor = 'hsl(' + i % 360 + ',90%,70%)';
     $body.style.color = 'hsl(' + (i + 180) % 360 + ',90%,70%)';
+    
+    $fps.innerHTML = Math.floor( 1/(delta/1000) );
     
     $elem.style.left = i + .25 + 'px';
     if (i > (1000 * .75)) {
