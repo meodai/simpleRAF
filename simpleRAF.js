@@ -43,7 +43,7 @@
       callbacks.splice(i, 1);
       callbacksMeta.splice(i, 1);
     }
-    if (!callbacks.length) {
+    if (callbacks.length === 0) {
       w.cancelAnimationFrame(rafID);
     }
   };
@@ -113,7 +113,7 @@
     /**
      * on: public method to register a callback
      * @param   {Function} callback
-     * @param   {float}   increment increment value on every callback
+     * @param   {float}    increment increment value on every callback
      * @returns {void}
      */
     on: function (callback, increment) {
