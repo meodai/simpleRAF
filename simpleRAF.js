@@ -16,18 +16,22 @@
 
   w = window;
 
-  currtime = w.performance && w.performance.now ? function() {
-    return performance.now();
-  } : Date.now || function () {
-    return new Date;
-  };
-
   callbacks = [];
   /**
    * contains all the meta-information for each callback, like current
    * iteration and iteration
    */
   callbacksMeta = [];
+
+  /**
+   * currentime: returns performance.now() or Date as fallback
+   * @returns {double}    DOMHighResTimeStamp || Dete
+   */
+  currtime = w.performance && w.performance.now ? function() {
+    return performance.now();
+  } : Date.now || function () {
+    return new Date;
+  };
 
   /**
    * removeCallback: removes a callback and its meta data from the corresponding
