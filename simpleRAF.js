@@ -95,7 +95,7 @@
    * @returns {void}
    */
   loop = function (timeStamp) {
-    if ( !callbacks.length ) return;
+    if ( callbacks.length === 0 ) return;
     runCallbacks(timeStamp);
     rafID = w.requestAnimationFrame(loop);
   };
